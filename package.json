@@ -1,0 +1,27 @@
+{
+  "name": "mm-monitoring",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Root orchestration scripts for the Hyperliquid MM monitoring MVP.",
+  "scripts": {
+    "setup": "docker compose up -d --wait && npm install --prefix ingestor && npm install --prefix sla && npm install --prefix dashboard && npm run migrate --prefix ingestor",
+    "install:all": "npm install --prefix ingestor && npm install --prefix sla && npm install --prefix dashboard",
+    "dev": "docker compose up -d --wait && npm run migrate --prefix ingestor && concurrently --kill-others-on-fail -n ingestor,dashboard -c blue,magenta \"npm run dev --prefix ingestor\" \"npm run dev --prefix dashboard\"",
+    "ingestor": "npm run dev --prefix ingestor",
+    "dashboard": "npm run dev --prefix dashboard",
+    "migrate": "npm run migrate --prefix ingestor",
+    "markets": "npm run markets --prefix ingestor --",
+    "report": "npm run report --prefix sla --",
+    "typecheck": "npm run typecheck --prefix ingestor && npm run typecheck --prefix sla",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d --wait && npm run migrate --prefix ingestor",
+    "db:psql": "docker exec -it mm_timescaledb psql -U mm -d mm_monitoring"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
