@@ -1,0 +1,121 @@
+:root {
+  --bg:        #0e1116;
+  --panel:     #161b22;
+  --border:    #30363d;
+  --text:      #e6edf3;
+  --muted:     #8b949e;
+  --accent:    #58a6ff;
+  --good:      #3fb950;
+  --warn:      #d29922;
+  --bad:       #f85149;
+  font-family: ui-monospace, "JetBrains Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+  color-scheme: dark;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.nav {
+  display: flex;
+  gap: 1.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--panel);
+  align-items: baseline;
+}
+.nav .brand { font-weight: 700; }
+.nav .spacer { flex: 1; }
+.nav .status-good { color: var(--good); }
+.nav .status-warn { color: var(--warn); }
+.nav .status-bad  { color: var(--bad); }
+
+main {
+  padding: 1.25rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+h1, h2 { margin: 0.25rem 0 0.75rem; }
+h1 { font-size: 1.25rem; }
+h2 { font-size: 1.05rem; color: var(--muted); }
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1rem;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.9rem 1rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+th, td {
+  text-align: right;
+  padding: 0.25rem 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+th:first-child, td:first-child { text-align: left; }
+th { color: var(--muted); font-weight: 500; }
+
+.kv {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.25rem 1rem;
+}
+.kv .k { color: var(--muted); }
+
+.tag {
+  display: inline-block;
+  padding: 0.1rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  border: 1px solid var(--border);
+}
+.tag-good { color: var(--good); border-color: var(--good); }
+.tag-warn { color: var(--warn); border-color: var(--warn); }
+.tag-bad  { color: var(--bad);  border-color: var(--bad);  }
+
+form.params {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: end;
+  margin-bottom: 1rem;
+}
+form.params label { display: flex; flex-direction: column; font-size: 0.8rem; color: var(--muted); }
+form.params input, form.params select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+  font: inherit;
+}
+form.params button {
+  background: var(--accent);
+  color: #0d1117;
+  border: none;
+  border-radius: 4px;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+}
+
+.numerals { font-variant-numeric: tabular-nums; }
+.muted { color: var(--muted); }

@@ -1,0 +1,31 @@
+{
+  "name": "mm-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "prepare": "svelte-kit sync || echo Done",
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "sync": "svelte-kit sync",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-node": "^5.2.9",
+    "@sveltejs/kit": "^2.8.4",
+    "@sveltejs/vite-plugin-svelte": "^4.0.2",
+    "@types/node": "^22.10.0",
+    "svelte": "^5.2.7",
+    "svelte-check": "^4.1.1",
+    "typescript": "^5.7.2",
+    "vite": "^5.4.11"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "pg": "^8.13.1"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
