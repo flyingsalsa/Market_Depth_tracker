@@ -3,6 +3,25 @@
   let { data }: { data: PageServerData } = $props();
   const r = $derived(data.result);
 
+  let venue  = $state(data.result.params.venue);
+  let symbol = $state(data.result.params.symbol);
+
+  // "venue\u0000symbol" key for the market dropdown. Empty keeps the current
+  // values so a market not in the list can still be typed by hand.
+  const SEP = '\u0000';
+  let selectedMarket = $state(
+    data.markets.some(m => m.venue === data.result.params.venue && m.symbol === data.result.params.symbol)
+      ? data.result.params.venue + SEP + data.result.params.symbol
+      : '',
+  );
+
+  function onMarketChange() {
+    if (!selectedMarket) return;
+    const i = selectedMarket.indexOf(SEP);
+    venue  = selectedMarket.slice(0, i);
+    symbol = selectedMarket.slice(i + 1);
+  }
+
   function pct(x: number | null): string {
     if (x === null) return '—';
     return `${(x * 100).toFixed(3)} %`;
@@ -16,8 +35,16 @@
 <h1>SLA report</h1>
 
 <form class="params" method="get">
-  <label>venue          <input name="venue"           value={r.params.venue} placeholder="hyperliquid" /></label>
-  <label>symbol         <input name="symbol"          value={r.params.symbol} /></label>
+  <label>market
+    <select bind:value={selectedMarket} onchange={onMarketChange}>
+      <option value="">— custom —</option>
+      {#each data.markets as m}
+        <option value={m.venue + SEP + m.symbol}>{m.venue} / {m.symbol}</option>
+      {/each}
+    </select>
+  </label>
+  <label>venue          <input name="venue"           bind:value={venue}  placeholder="hyperliquid_perp" /></label>
+  <label>symbol         <input name="symbol"          bind:value={symbol} /></label>
   <label>hours          <input name="hours"           type="number" step="0.1" value={r.params.hours} /></label>
   <label>max spread bps <input name="max-spread-bps" type="number" step="0.1" value={r.params.maxSpreadBps} /></label>
   <label>min depth      <input name="min-depth"      type="number" step="0.01" value={r.params.minDepth} /></label>

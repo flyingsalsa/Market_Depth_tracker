@@ -37,7 +37,7 @@ interface PresenceRow {
 export const load: PageServerLoad = async () => {
   // Latest metric row per (venue, symbol). We previously filtered on
   // venue='hyperliquid', but the ingestor now writes multiple venue tags
-  // (hyperliquid, hyperliquid_spot, hyperliquid_perp_<suffix>) so the
+  // (hyperliquid_perp, hyperliquid_spot, hyperliquid_perp_<suffix>) so the
   // dashboard simply shows whatever it finds.
   const symbols = await query<SymbolRow>(`
     SELECT DISTINCT ON (venue, symbol)

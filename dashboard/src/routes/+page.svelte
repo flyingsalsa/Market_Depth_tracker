@@ -24,7 +24,7 @@
   }
 
   function venueLabel(venue: string): string {
-    if (venue === 'hyperliquid')      return 'perp (USDC)';
+    if (venue === 'hyperliquid_perp') return 'perp (USDC)';
     if (venue === 'hyperliquid_spot') return 'spot';
     if (venue.startsWith('hyperliquid_perp_')) {
       return `perp (${venue.slice('hyperliquid_perp_'.length).toUpperCase()})`;

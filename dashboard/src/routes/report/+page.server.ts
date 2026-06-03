@@ -1,4 +1,5 @@
 import { query } from '$lib/server/db';
+import { listMarkets } from '$lib/server/markets';
 import type { PageServerLoad } from './$types';
 
 // The dashboard re-implements the SLA evaluator instead of importing from
@@ -55,9 +56,13 @@ export interface ReportResult {
 }
 
 export const load: PageServerLoad = async ({ url }) => {
+  const markets = await listMarkets();
+  // Default to the first market that actually has data so a fresh visit lands
+  // on something real. Explicit ?venue / ?symbol params always win.
+  const fallback = markets[0] ?? { venue: 'hyperliquid_perp', symbol: 'BTC' };
   const params = {
-    venue: url.searchParams.get('venue') ?? 'hyperliquid',
-    symbol: url.searchParams.get('symbol') ?? 'BTC',
+    venue: url.searchParams.get('venue') ?? fallback.venue,
+    symbol: url.searchParams.get('symbol') ?? fallback.symbol,
     hours: Number(url.searchParams.get('hours') ?? '1'),
     maxSpreadBps: Number(url.searchParams.get('max-spread-bps') ?? '5'),
     minDepth: Number(url.searchParams.get('min-depth') ?? '0'),
@@ -175,5 +180,5 @@ export const load: PageServerLoad = async ({ url }) => {
     presenceBreaches,
   };
 
-  return { result };
+  return { result, markets };
 };

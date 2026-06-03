@@ -4,8 +4,13 @@
 -- dashboard's historical view stays responsive at minute / hour zoom levels
 -- without scanning the raw 100 ms metric table.
 
+-- `materialized_only = false` enables real-time aggregation: every query
+-- unions the materialized rows with an on-the-fly aggregate of the most recent
+-- (not-yet-materialized) 100 ms buckets. Without this the dashboard would only
+-- see data as fresh as the last refresh-policy run (every 30 s), so the live
+-- chart would jump every 30 s instead of advancing each second.
 CREATE MATERIALIZED VIEW IF NOT EXISTS book_metrics_1s
-WITH (timescaledb.continuous) AS
+WITH (timescaledb.continuous, timescaledb.materialized_only = false) AS
 SELECT
     time_bucket('1 second', bucket_ts) AS bucket_ts,
     venue,
@@ -20,7 +25,7 @@ GROUP BY 1, 2, 3
 WITH NO DATA;
 
 CREATE MATERIALIZED VIEW IF NOT EXISTS book_metrics_1m
-WITH (timescaledb.continuous) AS
+WITH (timescaledb.continuous, timescaledb.materialized_only = false) AS
 SELECT
     time_bucket('1 minute', bucket_ts) AS bucket_ts,
     venue,

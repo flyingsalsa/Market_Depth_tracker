@@ -156,7 +156,7 @@ export function validateMarkets(
         `https://app.hyperliquid.xyz/trade for the canonical ticker.`,
       );
     }
-    out.push({ wsCoin: m.id, symbol: m.id, venue: 'hyperliquid', kind: 'perp' });
+    out.push({ wsCoin: m.id, symbol: m.id, venue: 'hyperliquid_perp', kind: 'perp' });
   }
   return out;
 }

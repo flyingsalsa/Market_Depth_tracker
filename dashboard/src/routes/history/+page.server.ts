@@ -1,4 +1,5 @@
 import { query } from '$lib/server/db';
+import { listMarkets } from '$lib/server/markets';
 import type { PageServerLoad } from './$types';
 
 interface MetricRow {
@@ -12,9 +13,17 @@ interface ExcludedRow {
   excluded_seconds: string;
 }
 
-export const load: PageServerLoad = async ({ url }) => {
-  const venue  = url.searchParams.get('venue')  ?? 'hyperliquid';
-  const symbol = url.searchParams.get('symbol') ?? 'BTC';
+export const load: PageServerLoad = async ({ url, depends }) => {
+  // Lets the page poll just this loader (invalidate('mm:history')) for a live
+  // 1-second refresh without a full navigation.
+  depends('mm:history');
+  const markets = await listMarkets();
+  // Default to the first market that actually has data, so a fresh visit
+  // lands on something real instead of hyperliquid_perp / BTC (which may be
+  // empty). Explicit ?venue / ?symbol params always win.
+  const fallback = markets[0] ?? { venue: 'hyperliquid_perp', symbol: 'BTC' };
+  const venue  = url.searchParams.get('venue')  ?? fallback.venue;
+  const symbol = url.searchParams.get('symbol') ?? fallback.symbol;
   const hours  = Number(url.searchParams.get('hours') ?? '1');
   const safeHours = Math.min(Math.max(hours, 0.0833), 168); // 5 min .. 7 days
 
@@ -46,5 +55,6 @@ export const load: PageServerLoad = async ({ url }) => {
   return {
     venue, symbol, hours: safeHours,
     metrics: metrics.rows, excluded: excluded.rows,
+    markets,
   };
 };

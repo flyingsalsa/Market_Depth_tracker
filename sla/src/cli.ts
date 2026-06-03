@@ -30,7 +30,7 @@ function parseArgs(argv: string[]): Cli {
     }
   }
   return {
-    venue:        args.get('venue')  ?? 'hyperliquid',
+    venue:        args.get('venue')  ?? 'hyperliquid_perp',
     symbol:       args.get('symbol') ?? 'BTC',
     hours:        Number(args.get('hours') ?? '1'),
     maxSpreadBps: Number(args.get('max-spread-bps') ?? '5'),

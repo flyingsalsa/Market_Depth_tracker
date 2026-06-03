@@ -117,5 +117,73 @@ form.params button {
   font-weight: 600;
 }
 
+.presets {
+  display: inline-flex;
+  gap: 0.3rem;
+  align-items: end;
+}
+.presets .preset {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 500;
+}
+.presets .preset:hover { border-color: var(--accent); }
+.presets .preset-active {
+  background: var(--accent);
+  color: #0d1117;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
 .numerals { font-variant-numeric: tabular-nums; }
 .muted { color: var(--muted); }
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  margin-bottom: 0.6rem;
+  font-size: 0.8rem;
+}
+.legend-item { display: inline-flex; align-items: center; gap: 0.4rem; }
+
+.inline-select {
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1rem 0.3rem;
+  font: inherit;
+  font-size: 0.8rem;
+}
+.inline-select:disabled { opacity: 0.5; }
+
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--muted);
+}
+.live-dot.live-on { background: var(--good); box-shadow: 0 0 0 0 rgba(63,185,80,0.6); animation: live-pulse 1s ease-out infinite; }
+.live-dot.live-busy { background: var(--accent); }
+@keyframes live-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(63,185,80,0.6); }
+  100% { box-shadow: 0 0 0 6px rgba(63,185,80,0); }
+}
+.legend .swatch {
+  display: inline-block;
+  width: 18px;
+  height: 3px;
+  border-radius: 2px;
+}
+.legend .swatch-dashed {
+  height: 0;
+  border-top: 3px dashed currentColor;
+  background: transparent !important;
+}

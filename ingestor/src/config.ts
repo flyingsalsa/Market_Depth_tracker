@@ -44,8 +44,7 @@ function envList(name: string, fallback: string[] = []): string[] {
  *                                         from the suffix (e.g. perp_usde)
  *
  * The `venue` value below is what gets written to the `venue` column of every
- * table. Default perps keep `"hyperliquid"` for backward compatibility with
- * data collected before this change.
+ * table. Default USDC perps are tagged `"hyperliquid_perp"`.
  */
 export type MarketKind = 'perp' | 'spot' | 'perp_alt';
 
@@ -72,7 +71,7 @@ export function parseMarket(raw: string): Market {
     if (suffix.length === 0) throw new Error(`Malformed alt-dex perp id: ${id}`);
     return { id, kind: 'perp_alt', venue: `hyperliquid_perp_${suffix}` };
   }
-  return { id, kind: 'perp', venue: 'hyperliquid' };
+  return { id, kind: 'perp', venue: 'hyperliquid_perp' };
 }
 
 function parseMarkets(): Market[] {
